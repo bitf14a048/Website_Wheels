@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<Title>
+    Wheels
+</Title>
+<head>
+    <link rel="icon" href="~/Images/icon.png">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <title>Landed by HTML5 UP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="~/Content/main.css" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+</head>
+<body class="landing">
+
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <h5 id="logo" style="font-size: 30px;">
+                <a href="/Home/Index">
+                    <img src="~/Images/pinklogo.png" style="padding: 10px" />
+                </a>
+            </h5>
+            <nav id="nav">
+                <ul>
+                    <li><a href="/Home/Index">Home</a></li>
+                    <li><a href="/Home/Fares">Fares</a></li>
+                    <li><a href="/Home/OnlineTickets">Online Tickets</a></li>
+                    <li><a href="/Home/Reservation">Free Reservation</a></li>
+                    @{
+                        if(Session["Wheelername"] == null && Session["admin"] == null)
+                        {
+                            <li><a href="/Forms/SignIn" class="button special">Sign In</a></li>
+                            <li><a href="/Admin/AdminSignIn"><img src="~/Images/edit.png"width="25" height="25" /></a></li>
+                        }
+                            
+                        if(Session["Wheelername"] != null)
+                        {
+                            <li class="button special">
+                                Welcome @Session["Wheelername"].ToString()
+                                <ul>
+                                    <li><a href="/Home/Profile">Profile</a></li>
+                                    <li><a href="/Home/ChangePassword">Change Password</a></li>
+                                    <li><a href="/Home/ViewBooking">My Booking</a></li>
+                                    <li><a href="/Forms/LogOut">Logout</a></li>
+                                </ul>
+                            </li>
+                        } 
+                        if(Session["admin"] != null)
+                        {
+                            <li><a href="/Admin/AdminPanel">Hello @Session["admin"].ToString()!</a>
+                                <ul>
+                                    <li><a href="/Admin/LogOut">Logout</a></li>
+                                </ul>
+                            </li>
+                        }
+                    }
+
+                    
+                    @*<li>
+                            <a href="#">Layouts</a>
+                            <ul>
+                                <li><a href="">Left Sidebar</a></li>
+                                <li><a href="right-sidebar.html">Right Sidebar</a></li>
+                                <li><a href="no-sidebar.html">No Sidebar</a></li>
+                                <li>
+                                    <a href="#">Submenu</a>
+                                    <ul>
+                                        <li><a href="#">Option 1</a></li>
+                                        <li><a href="#">Option 2</a></li>
+                                        <li><a href="#">Option 3</a></li>
+                                        <li><a href="#">Option 4</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="elements.html">Elements</a></li>*@
+
+                </ul>
+            </nav>
+            
+        </header>
+        @RenderBody()
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+        <!-- Scripts -->
+        <script src="~/Scripts/jquery.min.js"></script>
+        <script src="~/Scripts/jquery.scrolly.min.js"></script>
+        <script src="~/Scripts/jquery.dropotron.min.js"></script>
+        <script src="~/Scripts/jquery.scrollex.min.js"></script>
+        <script src="~/Scripts/skel.min.js"></script>
+        <script src="~/Scripts/util.js"></script>
+        <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+        <script src="~/Scripts/main.js"></script>
+
+</body>
+</html>

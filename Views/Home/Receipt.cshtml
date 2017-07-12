@@ -1,0 +1,96 @@
+﻿@using Project.Models;
+@model Customer_Route
+
+<!DOCTYPE html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        function printDiv() {
+                var divName= "ticket";
+
+                var printContents = document.getElementById(divName).innerHTML;
+                var originalContents = document.body.innerHTML;
+
+                document.body.innerHTML = "<br/> <center> Soft Ticket </center><br/>" + printContents;
+
+                window.print();
+
+                document.body.innerHTML = originalContents;
+            }
+        function done()
+        {
+            window.location.href = "/Home/Index";
+        }
+    </script>
+</head>
+<html>
+<body>
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+        <div class="container">
+            <header class="major">
+                <h3>Receipt</h3>
+            </header>
+           <div id="ticket">
+                   <table class="table table-striped table-bordered table-hover table-condensed" style="font-size:15px;">
+                       <tr>
+                           <th>Date</th>
+                           <td>@DateTime.Now.Date.AddDays(1).ToShortDateString()</td>
+                           <th>Customer CNIC</th>
+                           <td>@Model.customer.CNIC</td>
+                       </tr>
+                       <tr>
+                           <th>Customer Gender</th>
+                           <td>@Model.customer.Gender</td>
+                           <th>Customer Name</th>
+                           <td>@Model.customer.Name</td>
+                       </tr>
+                       <tr>
+                           <th>Customer Cell No.</th>
+                           <td>@Model.customer.Contact_Number</td>
+                           
+                           <th> Travel Fare</th>
+                           @{if (Session["bus"].Equals("luxury"))
+                           {
+                                <td>@Model.route.Fare1.Luxury_Fare</td>
+                           }
+                           if (Session["bus"].Equals("business"))
+                           {
+                                <td>@Model.route.Fare1.Business_Fare</td>
+                           }}
+                       </tr>
+                       <tr>
+                           <th>Bus ID</th>
+                           @{if (Session["bus"].Equals("luxury"))
+                            {
+                                <td>@Model.route.LBusID</td>
+                            }
+                            if (Session["bus"].Equals("business"))
+                            {
+                                <td>@Model.route.BBusID</td>
+                            }}
+                           <th>Route</th>
+                           <td>@Model.route.Fare1.Departure_Name to @Model.route.Fare1.Arrival_Name</td>
+                       </tr>
+                       <tr>
+                           <th>Timing</th>
+                           <td>@Model.route.DepartureTime - @Model.route.ArrivalTime</td>
+                           <th>Seat Number</th>
+                           <td>@Session["seatnumber"].ToString()</td>
+                           @{
+                               Session["seatnumber"] = null;
+                           }
+                       </tr>
+                   </table>
+            </div>               <center>
+                                        <input type="button" class="button special" value="Print" onclick="printDiv()" >
+                                        <input type="button" class="button special" value="Done" onclick="done()">
+                                   </center>  
+                                
+
+                
+        </div>
+    </div>
+</body>
+</html>

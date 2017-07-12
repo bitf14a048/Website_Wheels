@@ -1,0 +1,46 @@
+﻿@using Project.Models;
+@model Customer
+
+<!DOCTYPE html>
+<html>
+@{
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+<body>
+    
+    <div>
+        <div class="center" style="background-image: url(../../Images/signup.png );padding:20px;" >
+            @{
+                if (Session["error"] != null)
+                {
+                    <div style="color: #ff006e;font-size: 20px;">@Session["error"].ToString()</div>
+                }
+                Session.Clear();
+            }
+
+            
+            @using (Html.BeginForm())
+            { 
+                @Html.ValidationMessageFor(model => model.CNIC)
+                @Html.TextBoxFor(model => model.CNIC, new { @placeholder = "CNIC"}) 
+                @Html.ValidationMessageFor(model => model.Name)
+                @Html.TextBoxFor(model => model.Name, new { @placeholder = "Name"}) 
+                @Html.ValidationMessageFor(model => model.Gender)
+                @Html.TextBoxFor(model => model.Gender, new { @placeholder = "Gender" })
+                @Html.ValidationMessageFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email, new { @placeholder = "Email Address" }) 
+                @Html.ValidationMessageFor(model => model.Contact_Number)
+                @Html.TextBoxFor(model => model.Contact_Number, new { @placeholder = "Contact Number" }) 
+                @Html.Password("password","", new { @placeholder = "Password"})
+                <center><input type="submit" class="button special" value="ABOARD" /></center>
+            }
+        </div>
+
+    </div>
+</body>
+
+
+
+
+</html>

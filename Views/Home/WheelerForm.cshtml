@@ -1,0 +1,165 @@
+﻿@using Project.Models;
+@model Wheeler_CustomerList
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function ()
+    {
+        $("#hidden").hide();
+        $("#methods").change(function()
+        {
+            var method = $("#methods").val();
+            if(method == "Credit Card")
+            {
+                $("#extension").html("<input type='text' id='cc' name='cc' placeholder='Credit Card Number'/><br/><div id='cc_warning'></div>").css('background-color', 'transparent').css('color', 'white');
+                $("#buttonNext").val("Proceed ");
+            }
+            else if(method == "Travel Time Points")
+            {
+                var data = @Model.wheeler.Customer.Travel_Times
+                $.getJSON("/Home/Points?wheeler=" + data, function(data)
+                    {
+                        if(data == null)
+                        {
+                            $("#extension").html("<center>Sorry! You have less than 5 points. Choose CASH or CREDIT CARD. Thank you!").css('background-color', '#16171D').css('padding', '10px');
+                            $("#buttonNext").val("Done");
+                        }
+                        else
+                        {
+                            $("#extension").html("<center>Request Accepted!</center> Bus can be aboarded on Provision of either of the following:  <br/> 1. The Ticket, obtained from the Booking Office on presenting the Wheeler Card. <br/> 2. The Soft Copy of Ticket. <br/>  <center>Proceed to receive Soft Form of the Ticket. <br/> Thank you!").css('background-color', '#16171D').css('background-color', '#16171D').css('padding', '10px');
+                            $("#buttonNext").val("Next");
+                        }
+                    })
+            }
+            else if(method == "Cash")
+            {
+                $("#extension").html("<center>Request Accepted! <br/>Ticket can be obtained on Provision of Wheeler Card and Cash. <br/> Thankyou!").css('background-color', '#16171D').css('padding', '10px');
+                $("#buttonNext").val("Done");
+            }
+            else
+            {
+                $("#extension").hide().css('background-color', 'transparent');
+            }
+        })
+        $("#cc").blur(function () {
+            var card_number = $("#cc").val();
+            if (card_number.length != 15) {
+                $("#cc_warning").text("Credit Card Number is Invalid");
+            }
+        })
+    })
+</script>
+</head>
+<body>
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+        <div class="container">
+            <header class="major">
+                <h2>Reservation</h2>
+            </header>
+            <div class="row 150%">
+                <div class="8u 12u$(medium)">  
+
+                    <!-- Content -->
+                    <section id="content">
+                        @using (Html.BeginForm("WheelerForm", "Home", new { c = Model.wheeler.Customer}))
+                        {
+                            List<string> seats = (List<string>) Session["seats"];
+                            List<string> gender = new List<string>();
+                            gender.Add("Male");
+                            gender.Add("Female");
+                            List<string> methods = new List<string>();
+                            methods.Add("Cash");
+                            methods.Add("Credit Card");
+                            methods.Add("Travel Time Points");
+                            <div class="container">
+                                <div class="row" >
+                                        <div class="4u 8u$(medium)">
+                                            <div id="hidden">
+                                                @Html.EditorFor(m => m.wheeler.Customer.CNIC, new { Value = Model.wheeler.Customer.CNIC })
+                                                @Html.EditorFor(m => m.wheeler.Customer, new { Value = Model.wheeler.Customer })
+                                                @Html.EditorFor(m => m.wheeler.Customer.Name, new { Value = Model.wheeler.Customer.Name, @readonly = "readonly" })
+                                            </div>
+
+                                            @Html.DropDownList("payment_method", new SelectList(methods), "Payment Method", new { @required = "true", @id = "methods"} )<br />  
+                                              
+                                        </div>
+                                        <div class="4u 8u$(medium)">
+                                            @Html.DropDownListFor(m => m.wheeler.Customer.Booking.Seat_Number, new SelectList(seats), "Seat Number", new { @required = "true", @id = "seatnumber", Name = "seat"})
+                                        </div>
+                                    
+                                    </div>
+
+
+                            </div>
+                            <div>
+                                <div id="extension" style="color: #e44c65; font-weight:bold; font-size: 20px;"></div>  <br />
+
+                                <input type="submit" id="buttonNext" class="button special" value="Next &#8827;" /><br />
+                            </div>
+                        }
+                    </section>
+
+                </div>
+                <div class="3u$ 12u$(medium)">
+
+                    <!-- Sidebar -->
+                    <section id="sidebar">
+                        <h3>Occupied Seats</h3>
+                        <table>
+                            @{
+                                int seat = 1;
+                                for (int i = 1; i <= 6; i++)
+                                {
+                                    <tr>
+                                        @{for (int j = 1; j <= 4; j++)
+                                            {
+                                                Customer c = new Customer();
+                                                foreach (var cus in Model.customerList)
+                                                {
+                                                    if (cus.Booking.Seat_Number.Equals(seat))
+                                                    {
+                                                        c = cus;
+                                                        break;
+                                                    }
+                                                }
+                                                if (c.Booking != null)
+                                                {
+                                                    if (c.Booking.Seat_Number.Equals(seat))
+                                                    {
+                                                        if (c.Gender.Equals("Male"))
+                                                        {
+                                                            <td bgcolor="#2D8DFA" style=" font-weight:700;"><center>@seat</center></td>
+                                                            
+                                                        }
+                                                        else if (c.Gender.Equals("Female"))
+                                                        {
+                                                            <td bgcolor="#FA2D94" style="font-weight:700;"><center>@seat</center></td>
+
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <td bgcolor="16171D"><center>@seat</center></td>
+                                                }
+                                                seat++;
+                                            }
+
+                                            }
+                                    </tr>
+                                }
+                                
+                            }
+                        </table>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

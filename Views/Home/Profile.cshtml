@@ -1,0 +1,113 @@
+﻿@{Session["url"] = Request.UrlReferrer;}
+@using Project.Models;
+@model Wheeler
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        .clickable {
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+    $(document).ready(function ()
+    {
+        $("#edit, #edit1, #edit2, #edit3, #edit4").hide();
+        $("#afterBtns").hide();
+        $("#editbtn").click(function()
+        {
+            $("#display, #display1, #display2, #display3, #display4, #display5").hide();
+            $("#beforeBtns").hide();
+            $("#afterBtns").show();
+            $("#edit, #edit1, #edit2, #edit3, #edit4").show();
+        })
+        $("#donebtn").click(function ()
+        {
+            window.location.href = "/Home/Index";
+        })
+    })
+    </script>
+
+
+            </head>
+
+            <body>
+                <!-- Main -->
+                <div id="main" class="wrapper style1">
+                    <div class="container">
+                        <div class="row 150%">
+                            <div class="4u 12u$(medium)">
+
+                                <!-- Sidebar -->
+                                <section id="sidebar">
+                                    <section style="padding-top: 50px;">
+                                        <img src="~/Images/profileicon1.png" />
+                                    </section>
+                                </section>
+
+                            </div>
+                            <div class="8u 12u$(medium) important(medium)" id="tablediv">
+
+                                <!-- Content -->
+                                <section id="content">
+                                    <section style="padding:50px">
+
+                                        <div>
+                                            @using (Html.BeginForm())
+                                            {
+                                                <table>
+                                                    <tr id="display">
+                                                        <td>@Html.LabelFor(m => m.WID)</td>
+                                                        <td><div>@Html.DisplayFor(m => m.WID, new { Value = Model.WID })</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@Html.LabelFor(m => m.Customer.Name)</td>
+                                                        <td><div id="display1">@Html.DisplayFor(m => m.Customer.Name, new { Value = Model.Customer.Name })</div></td>
+                                                        <td><div id="edit1" style="font-size:13px">@Html.TextBoxFor(m => m.Customer.Name, new { Value = Model.Customer.Name })</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@Html.LabelFor(m => m.Customer.Contact_Number)</td>
+                                                        <td><div id="display2">@Html.DisplayFor(m => m.Customer.Contact_Number, new { Value = Model.Customer.Contact_Number })</div></td>
+                                                        <td><div id="edit2" style="font-size:13px">@Html.TextBoxFor(m => m.Customer.Contact_Number, new { Value = "0" + Model.Customer.Contact_Number })</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@Html.LabelFor(m => m.Customer.Email)</td>
+                                                        <td><div id="display3">@Html.DisplayFor(m => m.Customer.Email, new { Value = Model.Customer.Email })</div></td>
+                                                        <td><div id="edit3" style="font-size:13px">@Html.TextBoxFor(m => m.Customer.Email, new { Value = Model.Customer.Email })</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@Html.LabelFor(m => m.Customer.Gender)</td>
+                                                        <td><div id="display4">@Html.DisplayFor(m => m.Customer.Gender, new { Value = Model.Customer.Gender })</div></td>
+                                                        <td><div id="edit4" style="font-size:13px">@Html.TextBoxFor(m => m.Customer.Gender, new { Value = Model.Customer.Gender })</div></td>
+                                                    </tr>
+                                                    <tr id="display5">
+                                                        <td>@Html.LabelFor(m => m.Customer.Travel_Times)</td>
+                                                        <td>@Html.DisplayFor(m => m.Customer.Travel_Times, new { Value = Model.Customer.Travel_Times })</td>
+                                                    </tr>
+
+                                                </table>
+                                                <center>
+                                                    <div id="beforeBtns">
+                                                        <input type="button" id="editbtn" value="Edit" class="button special" />
+                                                        <input type="button" id="donebtn" value="Done" class="button special" />
+                                                    </div>
+                                                    <div id="afterBtns">
+                                                        <input type="submit" id="savebtn" value="Save" class="button special" />
+                                                    </div>
+                                                </center>
+                                            }
+                                        </div>
+                                    </section>
+                                </section>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </body>
+</html>

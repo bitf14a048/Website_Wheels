@@ -1,0 +1,146 @@
+﻿@{Session["url"] = Request.UrlReferrer;}
+@using Project.Models;
+@model Customer_CustomerList
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function ()
+        {
+            $("#cc").blur(function ()
+            {
+                var card_number = $("#cc").val();
+                if(card_number.length != 15)
+                {
+                    $("#cc_warning").text("Credit Card Number is Invalid");
+                }
+            })
+        })
+        $(document).ready(function ()
+        {
+            $("#seatnumber, #gender").focusout(function()
+            {
+                if($("#seatnumber option:selected").text() == "2" && $("#gender option:selected").text() == "Male")
+                {
+                    $("#sn2_warning").text("Seat number 2 is only for Female Passenger!");
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+        <div class="container">
+            <header class="major">
+                <h2>Booking & Payment</h2>
+            </header>
+            <div class="row 150%">
+                <div class="8u 12u$(medium)">  
+
+                    <!-- Content -->
+                    <section id="content">
+                        @using (Html.BeginForm())
+                        {
+                            List<string> seats = (List<string>) Session["seats"];
+                            List<string> gender = new List<string>();
+                            gender.Add("Male");
+                            gender.Add("Female");
+                            <div class="container">
+                                @{
+                                    if (Session["customer_error"] != null)
+                                    {
+                                        <div style="color: #F71348">CNIC Already Exists!</div>
+                                    }
+                                    Session["customer_error"] = null;
+                                }
+                                <div class="row" >
+                                        <div class="4u 8u$(medium)">
+                                            
+                                            @Html.TextBoxFor(m => m.customer.CNIC, new { placeholder = "CNIC", @required = "true"}) <br />
+                                            @Html.TextBoxFor(m => m.customer.Name, new { placeholder = "Name", @required = "true" }) <br />
+                                            @Html.DropDownListFor(m => m.customer.Gender, new SelectList(gender), "Gender", new{@required = "true", @id = "gender"})<br />
+                                            @Html.DropDownListFor(m => m.customer.Booking.Seat_Number, new SelectList(seats), "Seat Number", new { @required = "true", @id = "seatnumber" })
+                                            <div id="sn2_warning" style="color: #F71348"></div>
+                                        </div>
+                                        <div class="4u 8u$(medium)">
+                                            @Html.TextBoxFor(m => m.customer.Email, new { placeholder = "Email Address", @required = "true" }) <br />
+                                            @Html.TextBoxFor(m => m.customer.Contact_Number, new { placeholder = "Mobile Number", @required = "true" }) <br />
+                                            @Html.TextBox("cc","", new { placeholder = "Credit Card", @required = "true" })
+                                            <div id="cc_warning" style="color: #F71348"/><br />
+                                        </div>
+                                    <input type="submit" class="button special" value="Next &#8827;" /><br />
+                                    </div>
+
+                            </div>
+                        }
+                    </section>
+
+                </div>
+                <div class="3u$ 12u$(medium)">
+
+                    <!-- Sidebar -->
+                    <section id="sidebar">
+                        <h3>Occupied Seats</h3>
+                        <table>
+                            @{
+                                int seat = 1;
+                                for (int i = 1; i <= 6; i++)
+                                {
+                                    <tr>
+                                        @{for (int j = 1; j <= 4; j++)
+                                            {
+                                                Customer c = new Customer();
+                                                c.CNIC = 0;
+                                                foreach (var cus in Model.customerList)
+                                                {
+                                                    if (cus.Booking.Seat_Number.Equals(seat))
+                                                    {
+                                                        c = cus;
+                                                        break;
+                                                    }
+                                                }
+                                              if(!(c.CNIC == 0))
+                                              {
+                                                 if (!c.Booking.Seat_Number.Equals(null))
+                                                {
+                                                    if (c.Booking.Seat_Number.Equals(seat))
+                                                    {
+                                                        if (c.Gender.Equals("Male"))
+                                                        {
+                                                            <td bgcolor="#2D8DFA" style=" font-weight:700;"><center>@seat</center></td>
+                                                            
+                                                        }
+                                                        else if (c.Gender.Equals("Female"))
+                                                        {
+                                                            <td bgcolor="#FA2D94" style="font-weight:700;"><center>@seat</center></td>
+
+                                                        }
+                                                    }
+                                                } 
+                                              }
+                                                
+                                                else
+                                                {
+                                                    <td bgcolor="16171D"><center>@seat</center></td>
+                                                }
+                                                seat++;
+                                            }
+
+                                            }
+                                    </tr>
+                                }
+                                
+                            }
+                        </table>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿@{Session["url"] = Request.UrlReferrer;}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#buttonback").click(function () {
+                window.location.href = "/Home/Index"
+                })
+            })
+    </script>
+</head>
+
+<body>
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+        <div class="container">
+            <header class="major">
+                <h2>Reservation</h2>
+            </header>
+            <div class="row 150%">
+                <div class="8u 12u$(medium)">  
+
+                    <!-- Content -->
+                    <section id="content">
+                        
+                                <div id="extension" style="color: #e44c65; font-weight:bold; font-size: 20px;"> Sorry! You have Already Booked a Ticket for Tomorrow.</div>  <br />
+
+                                <input type="button" id="buttonback" class="button special" value="Okay" /><br />
+                    </section>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>

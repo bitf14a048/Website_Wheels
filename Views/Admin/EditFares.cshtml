@@ -1,0 +1,79 @@
+﻿@using Project.Models
+@model Fare_FareList
+    @{
+        Layout = "~/Views/Shared/_Admin.cshtml";
+        ViewBag.Title = "Edit Fares";
+    }
+
+               <!DOCTYPE HTML>
+
+               <html>
+               <head>
+                   <style>
+                       .clickable {
+                           cursor: pointer;
+                       }
+                   </style>
+                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+                   <script>
+                       $(document).ready(function ()
+                       {
+                           $("#display1, #display2").show();
+                           $("#beforeBtns").show();
+                           $("#afterBtns").hide();
+                           $("#edit1, #edit2").hide();
+
+                           $("#editbtn").click(function ()
+                           {
+                               $("#display1, #display2").hide();
+                               $("#beforeBtns").hide();
+                               $("#afterBtns").show();
+                               $("#edit1, #edit2").show();
+                           })
+                       })
+                   </script>
+
+                   
+               </head>
+<body>
+            <div class="center">
+            </div>
+            
+               <div id="TableDiv" style="padding:5px;">
+                   <form action="/Admin/AddFare" style="float:right">
+                       <input type="submit" value="+More" class="button special" />
+                   </form>
+                   <table class="table table-striped table-bordered table-hover table-condensed">
+
+                       <th>Departure Name</th>
+                       <th>Arrival Name</th>
+                       <th>Luxury Fare</th>
+                       <th>Business Fare</th>
+                       <th></th>
+                           
+                        @foreach (var m in Model.fares)
+                        {
+                                using (Html.BeginForm())
+                                {
+                           <tr>
+                                   
+                                   <td>@m.Departure_Name</td>
+                                   <td>@m.Arrival_Name</td>  
+                                   <td>
+                                       <div id="display1">@Html.LabelFor(m1 => m1.fare.Luxury_Fare, m.Luxury_Fare.ToString())</div>
+                                       <div id="edit1" style="font-size:13px">@Html.TextBoxFor(m1 => m1.fare.Luxury_Fare, new { Value = m.Luxury_Fare })</div>
+                                   </td>
+                                   <td>
+                                       <div id="display2">@Html.LabelFor(m1 => m1.fare.Business_Fare, m.Business_Fare.ToString())</div>
+                                       <div id="edit2" style="font-size:13px">@Html.TextBoxFor(m1 => m1.fare.Business_Fare, new { Value = m.Business_Fare })</div>
+                                   </td>
+                               <td>
+                                    @Html.ActionLink("Edit", "EditFare", "Admin", new { id = m.Id }, null) 
+                               </td>
+                               </tr>
+                           }
+                       }
+                           </table>
+                       </div>
+    </body>

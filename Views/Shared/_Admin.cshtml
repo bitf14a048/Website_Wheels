@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href="~/Images/icon.png">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <title>Landed by HTML5 UP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="~/Content/main.css" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+    <style>
+        .center {
+            margin: auto;
+            margin-top: 120px;
+            width: 30%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+        <!-- Header -->
+        <header id="header" style="color:black;">
+            <h5 id="logo" style="font-size: 30px;">
+                <a href="/Home/Index">
+                    <img src="~/Images/pinklogo.png" style="padding: 10px" />
+                </a>
+            </h5>
+        </header>
+        @RenderBody()
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+        <!-- Scripts -->
+        <script src="~/Scripts/jquery.min.js"></script>
+        <script src="~/Scripts/jquery.scrolly.min.js"></script>
+        <script src="~/Scripts/jquery.dropotron.min.js"></script>
+        <script src="~/Scripts/jquery.scrollex.min.js"></script>
+        <script src="~/Scripts/skel.min.js"></script>
+        <script src="~/Scripts/util.js"></script>
+        <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+        <script src="~/Scripts/main.js"></script>
+</body>

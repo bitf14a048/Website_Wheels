@@ -1,0 +1,89 @@
+﻿@{
+    if (Session["invalid"] == null)
+    {
+        if(Session["reservation"] != null)
+        {
+            Session["url"] = "/Home/Reservation";
+            Session["reservation"] = null;
+        }
+            if(Session["wid_forgotpassword"] != null)
+            {
+                Session["url"] = "/Home/Index";
+                Session["wid_forgotpassword"] = null;
+            }
+            if (Session["wid_forgotpassword"] != null && Session["reservation"] != null)
+            {
+                Session["url"] = "/Home/Reservation";
+                Session["reservation"] = null;
+            }
+        else
+        {
+            Session["url"] = Request.UrlReferrer;
+        }
+    }
+}
+
+@{
+    ViewBag.Title = "Sign In";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            $("#href").hide();
+            $("#wid").change(function()
+            {
+                $("#href").show();
+            })
+            $("#href").click(function()
+            {
+                var wid = $("#wid").val();
+                var url = $(this).attr('href') + '?wid=' + wid; // build new url
+                location.href = url; // redirect
+                return false; // cancel default redirect
+            })
+        })
+    </script>
+</head>
+<body>
+    <div id="page-wrapper">
+        <!-- Header -->
+        <header id="header">
+            <nav id="nav">
+                <ul>
+                    <li>Not a Member?</li>
+                    <li><a href="/Forms/SignUp" class="button special">Sign Up</a></li>
+                </ul>
+            </nav>
+        </header>
+    </div>
+    <div style="margin:50px;padding:20px;">
+        <div class="center">
+            <div>
+                @{
+                    if (Session["invalid"] != null)
+                    {
+                        <div style="color: #ff006e">@Session["invalid"].ToString()</div>
+                        Session["invalid"] = null;
+                    }
+                }
+            </div>
+            <form style="padding: 60px;background-image: url(../../Images/lock.png );"
+                  action="/Forms/SignIn/2" method="post">
+
+                <input id="wid" type="text" name="wid" placeholder="Wheeler ID" required="required" /> <br />
+                <input type="password" name="password" placeholder="Password" required="required" />
+                @Html.ActionLink("Forgot Password?", "ForgotPassword", "Forms", null, new { id = "href" })<br />
+                
+                <center><input type="submit" class="button special" value="LOG IN" /></center>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

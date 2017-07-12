@@ -1,0 +1,36 @@
+﻿@{Session["url"] = Request.UrlReferrer;}
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Admin Sign In";
+}
+
+
+<!DOCTYPE html>
+<html>
+<body >
+    <div style="margin:50px;padding:20px;">
+        <div>
+            <div class="center">
+                @{
+                    if (Session["invalid"] != null)
+                    {
+                        <div style="color: #ff006e">@Session["invalid"].ToString()</div>
+                        Session["invalid"] = null;
+                    }
+                }
+                <form style="padding: 60px;"
+                      action="/Admin/AdminPanel" method="post">
+
+                    <input type="text" name="uname" placeholder="Admin Username" /> <br />
+                    <input type="password" name="password" placeholder="Password" /><br />
+                    <center><input type="submit" class="button special" value="LOG IN" /></center>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+
+

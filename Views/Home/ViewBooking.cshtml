@@ -1,0 +1,97 @@
+﻿@{Session["url"] = Request.UrlReferrer;}
+@using Project.Models;
+@model Wheeler_Route
+           @{
+               ViewBag.wheelerId = Model.wheeler.WID;
+               Session["cnic"] = Model.wheeler.Customer.CNIC;
+           }
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .clickable {
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#backbtn").click(function () {
+                window.location.href = Session["url"];
+            })
+        })
+    </script>
+
+
+            </head>
+
+            <body>
+                <!-- Main -->
+                <div id="main" class="wrapper style1">
+                    <div class="container">
+                        <div class="row 150%">
+                            <div class="4u 12u$(medium)">
+
+                                <!-- Sidebar -->
+                                <section id="sidebar">
+                                    <section style="padding-top: 50px;">
+                                        <img src="~/Images/booking.png" />
+                                    </section>
+                                </section>
+
+                            </div>
+                            <div class="8u 12u$(medium) important(medium)" id="tablediv">
+
+                                <!-- Content -->
+                                <section id="content">
+                                    <section style="padding:50px">
+                                        @using (Html.BeginForm())
+                                        {
+                                            <table>
+                                                <tr>
+                                                    <td>@Html.LabelFor(m => m.wheeler.Customer.CNIC)</td>
+                                                    <td> @Html.DisplayFor(m => m.wheeler.Customer.CNIC, new { Value = Model.wheeler.Customer.CNIC})</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@Html.LabelFor(m => m.wheeler.Customer.Booking.Travel_Date)</td>
+                                                    <td> @Html.DisplayFor(m => m.wheeler.Customer.Booking.Travel_Date, new { Value = Model.wheeler.Customer.Booking.Travel_Date.ToString().AsDateTime().ToShortDateString()})</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@Html.LabelFor(m => m.route.DepartureTime)</td>
+                                                    <td>@Html.DisplayFor(m => m.route.DepartureTime, new { Value = Model.route.DepartureTime })</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>@Html.LabelFor(m => m.route.Fare1.Departure_Name, "Origin")</td>
+                                                    <td>@Html.DisplayFor(m => m.route.Fare1.Departure_Name, new { Value = Model.route.Fare1.Departure_Name })</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>@Html.LabelFor(m => m.route.Fare1.Arrival_Name, "Destination")</td>
+                                                    <td>@Html.DisplayFor(m => m.route.Fare1.Arrival_Name, new { Value = Model.route.Fare1.Arrival_Name })</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>@Html.LabelFor(m => m.wheeler.Customer.Booking.Seat_Number)</td>
+                                                    <td>@Html.DisplayFor(m => m.wheeler.Customer.Booking.Seat_Number, new { Value = Model.wheeler.Customer.Booking.Seat_Number })</td>
+                                                </tr>
+                                                
+                                            </table>
+                                            <center>
+                                            <input type="submit" id="cancelbtn" value="Cancel" class="button special" />
+                                            <input type="button" id="backbtn" value="Back" class="button special" />
+                                        </center>
+                                        }
+                                        
+                                    </section>
+                                </section>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </body>
+</html>

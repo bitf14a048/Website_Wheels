@@ -1,0 +1,139 @@
+﻿@{Session["url"] = Request.UrlReferrer;}
+@using Project.Models;
+@model List<Project.Models.Route>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        .clickable {
+            cursor: pointer;
+        }
+    </style>
+    <title>Online Tickets</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function()
+            {
+                $("#origin").blur(function()
+                {
+                    var origin = $("#origin").val();
+                    $.getJSON("/Home/Destinations?origin=" + origin, function(data)
+                    {
+                        $("#destination").empty();
+                        $.each(data, function(i,item)
+                        {
+                            $("#destination").append($('<option/>', { value: item }).html(item));
+                        })
+
+                    })
+                })
+            })
+        $(document).ready(function()
+        {
+            $(".clickable").click(function()
+            {
+                var href = this.dataset.href;
+                window.location.assign(href);
+            })
+        })
+    </script>
+
+</head>
+
+<body>
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+        <div class="container">
+            <div class="row 150%">
+                <div class="3 u 12u$(medium)">
+
+                    <!-- Sidebar -->
+                    <section id="sidebar">
+                        <section style="padding-top: 80px">
+                            <form action="/Home/OnlineTickets" method="post">
+                                <select name="origin" id="origin" required>
+                                    <option value="" disabled selected hidden>Select Departure City</option>
+                                    @{
+                                        List<string> l = (List<string>) Session["list"];
+                                            foreach (var i in l)
+                                            {
+                                                <option value=@i>@i</option>
+                                            }
+                                    }
+                                </select>
+                                <br />
+                                <select name="destination" id="destination" required>
+                                    <option value="" disabled selected hidden>Select Arrival City</option>
+                                </select>
+                                <br />
+                                <select name="bustype" id="bustype" required>
+                                    <option value="" disabled selected hidden>Select Bus Type</option>
+                                    <option value="LuxuryBus">Luxury Bus</option>
+                                    <option value="BusinessBus">Business Bus</option>
+                                </select>
+                                <br />
+                                <center><input type="submit" class="button special" value="Search" /></center>
+                            </form>
+                        </section>
+                    </section>
+
+                </div>
+                <div class="9u$ 12u$(medium) important(medium)">
+
+                    <!-- Content -->
+                    <section id="content">
+                        <center><img src="~/Images/ticket.png" /></center>
+                        <div>
+                            <table class="table table-bordered table-condensed table-responsive table-hover" >
+                                <th>Date</th>
+                                <th>Departure Time</th>
+                                <th>Arrival Time</th>
+                                <th>Fare</th>
+                                <th>Stop(s)</th>
+                                <th>Status</th>
+                                @{
+                                    if (Session["showroutes"] != null)
+                                    {
+                                        foreach (var m in Model)
+                                        {
+                                            <tr class="clickable" data-href="/Home/CustomerForm?route=@m.Id">
+                                                <td>@DateTime.Now.Date.AddDays(1).ToShortDateString()</td>
+                                                <td>@m.DepartureTime <br /> @m.Fare1.Departure_Name</td>
+                                                <td>@m.ArrivalTime <br /> @m.Fare1.Arrival_Name</td>
+                                                <td>
+                                                    @{
+                                            if (Session["bus"].Equals("luxury"))
+                                            {
+                                                @m.Fare1.Luxury_Fare
+                                                
+                                            }
+                                            if (Session["bus"].Equals("business"))
+                                            {
+                                                @m.Fare1.Business_Fare
+                                                
+                                            }
+                                                }
+                                            </td>
+                                            <td>@m.Stops</td>
+                                            <td>@m.Status</td>
+                                        </tr>
+                                        }
+                                        Session["showroutes"] = null;
+                                    }
+
+                                }
+                            </table>
+                        </div>
+
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        
+</body>
+</html>

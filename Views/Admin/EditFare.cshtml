@@ -1,0 +1,93 @@
+﻿@model Project.Models.Fare
+
+@{
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    ViewBag.Title = "Edit Fare";
+}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#edit, #edit1, #edit2, #edit3, #edit4").hide();
+            $("#afterBtns").hide();
+            $("#editbtn").click(function () {
+                $("#display3, #display4, #display5").hide();
+                $("#beforeBtns").hide();
+                $("#afterBtns").show();
+                $("#edit, #edit1, #edit2, #edit3, #edit4").show();
+            })
+            $("#donebtn").click(function () {
+                window.location.href = "/Admin/EditFares";
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <!-- Main -->
+    <div id="main" class="wrapper style1">
+        <div class="container">
+            <div class="row 150%">
+                <div class="4u 12u$(medium)">
+
+                    <!-- Sidebar -->
+                    <section id="sidebar">
+                        <section style="padding:0px"></section>
+                    </section>
+
+                </div>
+                <div class="8u 12u$(medium) important(medium)" id="tablediv">
+
+                    <!-- Content -->
+                    <section id="content">
+                        <section style="padding:50px">
+
+                            <div>
+                                @using (Html.BeginForm())
+                                {
+                                    <table>
+                                        <tr id="display">
+                                            <td>@Html.LabelFor(m => m.Id)</td>
+                                            <td><div>@Html.DisplayFor(m => m.Id, new { Value = Model.Id })</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.Departure_Name)</td>
+                                            <td id="display1">@Html.DisplayFor(m => m.Departure_Name, new { Value = Model.Departure_Name })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.Arrival_Name)</td>
+                                            <td id="display2">@Html.DisplayFor(m => m.Arrival_Name, new { Value = Model.Arrival_Name })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.Luxury_Fare)</td>
+                                            <td id ="display3">@Html.DisplayFor(m => m.Luxury_Fare, new { Value = Model.Luxury_Fare })</td>
+                                            <td id="edit3" style="font-size:13px">@Html.TextBoxFor(m => m.Luxury_Fare, new { Value = Model.Luxury_Fare })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.Business_Fare)</td>
+                                            <td id="display4">@Html.DisplayFor(m => m.Business_Fare, new { Value = Model.Business_Fare })</td>
+                                            <td id="edit4" style="font-size:13px">@Html.TextBoxFor(m => m.Business_Fare, new { Value = Model.Business_Fare })</td>
+                                        </tr>
+                                    </table>
+                                    <center>
+                                        <div id="beforeBtns">
+                                            <input type="button" id="editbtn" value="Edit" class="button special" />
+                                            <input type="button" id="donebtn" value="Done" class="button special" />
+                                        </div>
+                                        <div id="afterBtns">
+                                            <input type="submit" id="savebtn" value="Save Changes" class="button special" />
+                                        </div>
+                                    </center>
+                                }
+                            </div>
+                        </section>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
